@@ -1,0 +1,6 @@
+{
+  "name": "Chief Grill",
+  "description": "Premium family BBQ, burger, pizza, and continental dining experience in Peshawar, Pakistan since 1983.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
