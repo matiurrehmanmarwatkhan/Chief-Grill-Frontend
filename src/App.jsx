@@ -53,12 +53,12 @@ export default function App() {
         fetchReservations()
       ]);
 
-      setRestaurant(restData);
-      setMenuItems(menuData);
-      setOffers(offersData);
-      setGallery(galData);
-      setReviews(revData);
-      setReservations(resvData || []);
+      setRestaurant(restData && typeof restData === "object" ? restData : null);
+      setMenuItems(Array.isArray(menuData) ? menuData : []);
+      setOffers(Array.isArray(offersData) ? offersData : []);
+      setGallery(Array.isArray(galData) ? galData : []);
+      setReviews(Array.isArray(revData) ? revData : []);
+      setReservations(Array.isArray(resvData) ? resvData : []);
     } catch (e) {
       console.error("Database initialization error:", e);
     } finally {

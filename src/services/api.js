@@ -6,6 +6,24 @@ const apiClient = axios.create({
   baseURL: BASE_URL,
 });
 
+// Interceptor to catch HTML error fallback pages (which are returned with status 200 on SPA fallback routing)
+apiClient.interceptors.response.use(
+  (response) => {
+    const contentType = response.headers["content-type"];
+    if (
+      (contentType && contentType.includes("text/html")) ||
+      (typeof response.data === "string" && response.data.trim().startsWith("<!doctype")) ||
+      (typeof response.data === "string" && response.data.trim().startsWith("<html"))
+    ) {
+      throw new Error("Invalid API response: Expected JSON, got HTML. Check your backend URL configuration.");
+    }
+    return response;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export async function fetchRestaurant() {
   const res = await apiClient.get("/api/restaurant");
   return res.data;
