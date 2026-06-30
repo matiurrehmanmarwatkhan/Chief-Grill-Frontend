@@ -1,137 +1,165 @@
-import axios from "axios";
-
-const apiClient = axios.create();
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
 const BASE_URL = import.meta.env.VITE_API_URL || ""; // Relative paths since server proxies standard requests
 
-apiClient.defaults.baseURL = BASE_URL;
-
 export async function fetchRestaurant() {
-  const res = await apiClient.get(`${BASE_URL}/api/restaurant`);
+  const res = await fetch(`${BASE_URL}/api/restaurant`);
   if (!res.ok) throw new Error("Failed to fetch restaurant");
-  return res.data;
+  return res.json();
 }
 
 export async function updateRestaurant(details) {
-  const res = await apiClient.put(`${BASE_URL}/api/restaurant`, details);
+  const res = await fetch(`${BASE_URL}/api/restaurant`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(details),
+  });
   if (!res.ok) throw new Error("Failed to update restaurant");
-  return res.data;
+  return res.json();
 }
 
 export async function fetchMenu() {
-  const res = await apiClient.get(`${BASE_URL}/api/menu`);
+  const res = await fetch(`${BASE_URL}/api/menu`);
   if (!res.ok) throw new Error("Failed to fetch menu");
-  return res.data;
+  return res.json();
 }
 
 export async function addMenuItem(item) {
-  const res = await apiClient.post(`${BASE_URL}/api/menu`, item);
+  const res = await fetch(`${BASE_URL}/api/menu`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(item),
+  });
   if (!res.ok) throw new Error("Failed to add menu item");
-  return res.data;
+  return res.json();
 }
 
 export async function updateMenuItem(id, item) {
-  const res = await apiClient.put(`${BASE_URL}/api/menu/${id}`, item);
+  const res = await fetch(`${BASE_URL}/api/menu/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(item),
+  });
   if (!res.ok) throw new Error("Failed to update menu item");
-  return res.data;
+  return res.json();
 }
 
 export async function deleteMenuItem(id) {
-  const res = await apiClient.delete(`${BASE_URL}/api/menu/${id}`);
-  if (!res.ok) throw new Error("Failed to delete menu item");
-  return true;
-}
-
-export async function updateMenuItem(id, item) {
-  const res = await apiClient.put(`${BASE_URL}/api/menu/${id}`, item);
-  if (!res.ok) throw new Error("Failed to update menu item");
-  return res.data;
-}
-
-export async function deleteMenuItem(id) {
-  const res = await apiClient.delete(`${BASE_URL}/api/menu/${id}`);
+  const res = await fetch(`${BASE_URL}/api/menu/${id}`, {
+    method: "DELETE",
+  });
   if (!res.ok) throw new Error("Failed to delete menu item");
   return true;
 }
 
 export async function fetchOffers() {
-  const res = await apiClient.get(`${BASE_URL}/api/offers`);
+  const res = await fetch(`${BASE_URL}/api/offers`);
   if (!res.ok) throw new Error("Failed to fetch offers");
-  return res.data;
+  return res.json();
 }
 
 export async function addOffer(offer) {
-  const res = await apiClient.post(`${BASE_URL}/api/offers`, offer);
+  const res = await fetch(`${BASE_URL}/api/offers`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(offer),
+  });
   if (!res.ok) throw new Error("Failed to add offer");
-  return res.data;
+  return res.json();
 }
 
 export async function updateOffer(id, offer) {
-  const res = await apiClient.put(`${BASE_URL}/api/offers/${id}`, offer);
+  const res = await fetch(`${BASE_URL}/api/offers/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(offer),
+  });
   if (!res.ok) throw new Error("Failed to update offer");
-  return res.data;
+  return res.json();
 }
 
 export async function deleteOffer(id) {
-  const res = await apiClient.delete(`${BASE_URL}/api/offers/${id}`);
+  const res = await fetch(`${BASE_URL}/api/offers/${id}`, {
+    method: "DELETE",
+  });
   if (!res.ok) throw new Error("Failed to delete offer");
   return true;
 }
 
 export async function fetchGallery() {
-  const res = await apiClient.get(`${BASE_URL}/api/gallery`);
+  const res = await fetch(`${BASE_URL}/api/gallery`);
   if (!res.ok) throw new Error("Failed to fetch gallery");
-  return res.data;
+  return res.json();
 }
 
 export async function addGalleryItem(item) {
-  const res = await apiClient.post(`${BASE_URL}/api/gallery`, item);
+  const res = await fetch(`${BASE_URL}/api/gallery`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(item),
+  });
   if (!res.ok) throw new Error("Failed to add gallery item");
-  return res.data;
+  return res.json();
 }
 
 export async function fetchReviews() {
-  const res = await apiClient.get(`${BASE_URL}/api/reviews`);
+  const res = await fetch(`${BASE_URL}/api/reviews`);
   if (!res.ok) throw new Error("Failed to fetch reviews");
-  return res.data;
+  return res.json();
 }
 
 export async function addReview(review) {
-  const res = await apiClient.post(`${BASE_URL}/api/reviews`, review);
+  const res = await fetch(`${BASE_URL}/api/reviews`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(review),
+  });
   if (!res.ok) throw new Error("Failed to submit review");
-  return res.data;
+  return res.json();
 }
 
 export async function fetchReservations() {
-  const res = await apiClient.get(`${BASE_URL}/api/reservations`);
+  const res = await fetch(`${BASE_URL}/api/reservations`);
   if (!res.ok) throw new Error("Failed to fetch reservations");
-  return res.data;
+  return res.json();
 }
 
 export async function addReservation(reservation) {
-  const res = await apiClient.post(`${BASE_URL}/api/reservations`, reservation);
+  const res = await fetch(`${BASE_URL}/api/reservations`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(reservation),
+  });
   if (!res.ok) throw new Error("Failed to submit reservation");
-  return res.data;
+  return res.json();
 }
 
 export async function updateReservationStatus(id, status) {
-  const res = await apiClient.put(`${BASE_URL}/api/reservations/${id}`, {
-    status,
+  const res = await fetch(`${BASE_URL}/api/reservations/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status }),
   });
   if (!res.ok) throw new Error("Failed to update reservation");
-  return res.data;
+  return res.json();
 }
 
 export async function deleteReservation(id) {
-  const res = await apiClient.delete(`${BASE_URL}/api/reservations/${id}`);
+  const res = await fetch(`${BASE_URL}/api/reservations/${id}`, {
+    method: "DELETE",
+  });
   if (!res.ok) throw new Error("Failed to delete reservation");
   return true;
 }
 
 export async function loginAdmin(name, password) {
-  const res = await apiClient.post(`${BASE_URL}/api/admin/login`, {
-    name,
-    password,
+  const res = await fetch(`${BASE_URL}/api/admin/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, password }),
   });
   if (res.status === 401) {
     return { success: false, error: "Invalid name or password" };
@@ -147,9 +175,11 @@ export async function loginAdmin(name, password) {
 }
 
 export async function uploadImage(base64Image) {
-  const res = await apiClient.post(`${BASE_URL}/api/upload`, {
-    image: base64Image,
+  const res = await fetch(`${BASE_URL}/api/upload`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ image: base64Image }),
   });
   if (!res.ok) throw new Error("Failed to upload image");
-  return res.data;
+  return res.json();
 }
