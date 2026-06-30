@@ -20,7 +20,7 @@ import {
   ArrowRight,
   ChevronRight
 } from "lucide-react";
-import { addReservation } from "../services/api";
+import { addReservation, fetchReservations } from "../services/api";
 
 export default function Reservations({ branches }) {
   // Booking Form State
@@ -105,21 +105,17 @@ export default function Reservations({ branches }) {
     setSearching(true);
     setSearchTriggered(true);
     try {
-      const res = await fetch(`/api/reservations`);
-      if (res.ok) {
-        const allReservations = await res.json();
-        // Filter by trailing matching digits or exact phone to make lookup friendly
-        const cleanSearch = searchPhone.replace(/[^0-9]/g, "");
-        const matched = allReservations.filter(r => {
-          const cleanPhone = r.customerPhone.replace(/[^0-9]/g, "");
-          return cleanPhone.includes(cleanSearch) || r.customerPhone.trim() === searchPhone.trim();
-        });
-        setSearchResult(matched);
-      } else {
-        setSearchResult([]);
-      }
+      const allReservations = await fetchReservations();
+      // Filter by trailing matching digits or exact phone to make lookup friendly
+      const cleanSearch = searchPhone.replace(/[^0-9]/g, "");
+      const matched = allReservations.filter(r => {
+        const cleanPhone = r.customerPhone.replace(/[^0-9]/g, "");
+        return cleanPhone.includes(cleanSearch) || r.customerPhone.trim() === searchPhone.trim();
+      });
+      setSearchResult(matched);
     } catch (err) {
       console.error(err);
+      setSearchResult([]);
       showNotification("Failed to fetch reservation logs.", "error");
     } finally {
       setSearching(false);

@@ -14,7 +14,10 @@ import {
   deleteOffer,
   addGalleryItem, 
   addReview,
-  uploadImage
+  uploadImage,
+  addReservation,
+  updateReservationStatus,
+  deleteReservation
 } from "../services/api";
 
 export default function Admin({
@@ -318,12 +321,7 @@ export default function Admin({
     }
 
     try {
-      const res = await fetch("/api/reservations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(walkinForm)
-      });
-      if (!res.ok) throw new Error("Failed to create reservation");
+      await addReservation(walkinForm);
       
       setWalkinForm({
         branchName: "University Town (Main Branch)",
@@ -346,12 +344,7 @@ export default function Admin({
   // HANDLER: Update reservation status
   const handleUpdateResvStatus = async (id, status) => {
     try {
-      const res = await fetch(`/api/reservations/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status })
-      });
-      if (!res.ok) throw new Error("Failed to update status");
+      await updateReservationStatus(id, status);
       showNotification(`Reservation marked as ${status}!`);
       onRefreshAll();
     } catch (err) {
@@ -364,10 +357,7 @@ export default function Admin({
   const handleDeleteResv = async (id) => {
     if (!window.confirm("Are you sure you want to delete this reservation record from database?")) return;
     try {
-      const res = await fetch(`/api/reservations/${id}`, {
-        method: "DELETE"
-      });
-      if (!res.ok) throw new Error("Failed to delete");
+      await deleteReservation(id);
       showNotification("Reservation log cleared successfully.");
       onRefreshAll();
     } catch (err) {
